@@ -40,6 +40,11 @@ Pada commit ini, fungsi `handle_connection` telah dikembangkan tidak hanya untuk
 Pada commit 3, refaktorisasi fungsi `handle_connection` dilakukan dengan memisahkan logika penentuan status_line dan filename berdasarkan `GET` request yang diterima. Jika halaman yang diminta tidak ditemukan, server akan mengembalikan response berupa file `404.html`. Dengan memisahkan kode yang membaca file dan mengirim response dari logika if-else, duplikasi kode dapat dihindari, sehingga kode menjadi lebih modular, mudah dibaca, dan lebih mudah untuk di-maintain serta dikembangkan di masa depan.
 
 
+## Commit 4 Reflection Notess
+
+Fungsi `handle_connection` di-refactor dengan menggantikan blok if-else menjadi match statement untuk menangani beberapa endpoint, termasuk endpoint `/sleep`. Endpoint `/sleep  `secara khusus mengintroduksi delay selama 10 detik menggunakan `thread::sleep(Duration::from_secs(10))`, yang mensimulasikan kondisi halaman dengan respons yang lambat. Hal ini mengilustrasikan keterbatasan server single-threaded, di mana request yang membutuhkan waktu pemrosesan lama dapat menghambat request lainnya, sehingga pengguna harus menunggu antrian yang cukup lama jika mengakses halaman lain seperti `/`.
+
+
 
 
 
