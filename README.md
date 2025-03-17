@@ -33,5 +33,14 @@ Secara keseluruhan, rangkaian kode ini menciptakan server TCP sederhana yang mam
 Pada commit ini, fungsi `handle_connection` telah dikembangkan tidak hanya untuk membaca request melalui TCP stream saja, tetapi juga untuk mengirim response ke client. Setiap koneksi yang diterima akan selalu mendapatkan fixed response dengan status `200 OK`, tanpa mempertimbangkan konten request yang sebenarnya. Fungsi tersebut membaca file `hello.html` dan menghitung panjang kontennya untuk dimasukkan ke dalam header HTTP, sehingga response yang dikirim disusun dalam format `{status_line}\r\nContent-Length:{length}\r\n\r\n{contents}`. Di mana `{status_line}` adalah `200 OK`, `{length}` adalah panjang dari konten file, dan `{contents} `adalah isi file `hello.html`. Perlu dicatat bahwa saat ini setiap request selalu mengembalikan file `hello.html`, dan fitur ini akan diperbaiki pada commit selanjutnya untuk menyesuaikan respons berdasarkan request yang diterima.
 
 
+## Commit 3 Reflection Notes
+
+![Commit 3 screen capture](assets/images/commit3.png)
+
+Pada commit 3, refaktorisasi fungsi `handle_connection` dilakukan dengan memisahkan logika penentuan status_line dan filename berdasarkan `GET` request yang diterima. Jika halaman yang diminta tidak ditemukan, server akan mengembalikan response berupa file `404.html`. Dengan memisahkan kode yang membaca file dan mengirim response dari logika if-else, duplikasi kode dapat dihindari, sehingga kode menjadi lebih modular, mudah dibaca, dan lebih mudah untuk di-maintain serta dikembangkan di masa depan.
+
+
+
+
 
 
