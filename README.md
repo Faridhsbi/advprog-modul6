@@ -44,7 +44,9 @@ Pada commit 3, refaktorisasi fungsi `handle_connection` dilakukan dengan memisah
 
 Fungsi `handle_connection` di-refactor dengan menggantikan blok if-else menjadi match statement untuk menangani beberapa endpoint, termasuk endpoint `/sleep`. Endpoint `/sleep  `secara khusus mengintroduksi delay selama 10 detik menggunakan `thread::sleep(Duration::from_secs(10))`, yang mensimulasikan kondisi halaman dengan respons yang lambat. Hal ini mengilustrasikan keterbatasan server single-threaded, di mana request yang membutuhkan waktu pemrosesan lama dapat menghambat request lainnya, sehingga pengguna harus menunggu antrian yang cukup lama jika mengakses halaman lain seperti `/`.
 
+## Commit 5 Reflection Notes
 
+Implementasi ThreadPool dilakukan untuk meningkatkan efisiensi sistem dengan memanfaatkan multi-threading sehingga dapat menangani berbagai permintaan secara simultan. Konsep ini mencakup pembuatan ThreadPool yang mengelola koleksi `Worker`, di mana setiap `Worker` merupakan thread yang selalu siap menerima perintah melalui mekanisme message passing. Dengan menggunakan sender dan receiver yang telah diclone, setiap request yang masuk dikomunikasikan ke `Worker` yang tepat untuk diproses. Setiap `Worker` menunggu data masuk, kemudian mengunci receiver untuk memproses tugas tersebut, dan setelah selesai, kunci dilepaskan sehingga `Worker` lain dapat menerima tugas selanjutnya. Pendekatan ini tidak hanya membantu dalam mencegah serangan DDoS dengan mengatur antrian permintaan saja, melainkan juga memastikan penanganan request secara paralel, sehingga meningkatkan performa dan efisiensi keseluruhan sistem.
 
 
 
